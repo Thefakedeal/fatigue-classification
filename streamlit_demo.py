@@ -4,10 +4,7 @@ from torchvision import transforms
 import matplotlib.pyplot as plt
 import streamlit as st
 from PIL import Image
-import seaborn as sns
 from customcnn import CustomCNN
-from pytorch_grad_cam import GradCAM
-from pytorch_grad_cam.utils.image import show_cam_on_image
 import numpy as np
 
 torch.serialization.add_safe_globals([CustomCNN])
