@@ -14,3 +14,11 @@ This repository contains the code and report for an image-based fatigue detectio
 ## Models
 - Pre-trained: ResNet50, VGG16, MobileNetV2
 - Custom CNN with 2 convolutional and 2 fully connected layers
+
+### How to Run
+1. Get the dataset from Kaggle and extract it.  
+2. Update the data path in the notebook: `folder_path = "/path/to/your/dataset"`  
+3. Install requirements: `pip install -r requirements.txt`  
+4. Run the notebook (`notebook.ipynb`) to train and evaluate models.  
+5. Run the Streamlit demo: `streamlit run streamlit_demo.py`  
+Make sure the trained models and `transform.pth` are in the project folder.
