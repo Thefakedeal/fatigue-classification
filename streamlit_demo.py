@@ -95,3 +95,40 @@ if uploaded_file is not None:
     # Show in Streamlit
     st.pyplot(plt.gcf())
 
+
+# Draw GradCAM
+if uploaded_file is not None:
+    st.write("GradCAM Introspection")
+
+    # Make sure input requires grad
+    image_tensor.requires_grad = True
+
+    # Forward pass
+    outputs = model(image_tensor)
+    score, predicted = torch.max(outputs, 1)
+
+    # Backward pass w.r.t predicted class
+    model.zero_grad()
+    score.backward()
+
+    # Get gradients w.r.t input
+    gradients = image_tensor.grad.data.cpu().numpy()[0]  # shape: (C,H,W)
+
+    # Convert input tensor to displayable image
+    img_display = image_tensor.cpu().squeeze(0).permute(1,2,0).detach().numpy()  # (H,W,C)
+    mean = np.array([0.485, 0.456, 0.406])
+    std = np.array([0.229, 0.224, 0.225])
+    img_display = np.clip(std * img_display + mean, 0, 1)
+
+    # Convert gradients to single channel (average over RGB)
+    grad_display = np.mean(gradients, axis=0)  # shape: (H,W)
+    grad_display = (grad_display - grad_display.min()) / (grad_display.max() - grad_display.min() + 1e-10)
+
+    # Overlay GradCAM
+    plt.figure(figsize=(6,6))
+    plt.imshow(img_display)
+    plt.imshow(grad_display, cmap="hot", alpha=0.5)
+    plt.axis('off')
+
+    # Show in Streamlit
+    st.pyplot(plt.gcf())
