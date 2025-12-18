@@ -1,23 +1,13 @@
 # Load Models
 import torch
-from torchvision import transforms
 import matplotlib.pyplot as plt
 import streamlit as st
 from PIL import Image
-from customcnn import CustomCNN
+from models import res_net, viggl_net, mobil_net, custom_net, transform
 import numpy as np
 
-torch.serialization.add_safe_globals([CustomCNN])
 
 
-torch.serialization.add_safe_globals([transforms.Compose])
-
-# load exported models
-res_net = torch.load("./ResNet_model.pth", map_location=torch.device('cpu'),  weights_only=False)
-viggl_net = torch.load("./VGG_model.pth", map_location=torch.device('cpu'),  weights_only=False)
-mobil_net = torch.load("./MobileNetV2_model.pth", map_location=torch.device('cpu'),  weights_only=False)
-custom_net = torch.load("./CustomCNN_model.pth", map_location=torch.device('cpu'),  weights_only=False)
-transform = torch.load("./transform.pth", map_location=torch.device('cpu'),  weights_only=False ) # must be false to load full objects
 
 
 # Set device
@@ -105,4 +95,3 @@ if uploaded_file is not None:
     # Show in Streamlit
     st.pyplot(plt.gcf())
 
-  
